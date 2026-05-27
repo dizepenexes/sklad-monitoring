@@ -37,13 +37,37 @@ export async function POST(request: Request) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
+     data: {
+       name,
+       email,
+       passwordHash,
+     },
+    });
+
+    const token = crypto.randomUUID();
+
+    await prisma.session.create({
       data: {
-        name,
-        email,
-        passwordHash,
+        token,
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
       },
     });
+
+    const response = NextResponse.json({
+      message: "Реєстрація успішна",
+    });
+    
+    response.cookies.set("sklad_session", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
+    
+    return response;
 
     return NextResponse.json({
       message: "Реєстрація успішна",

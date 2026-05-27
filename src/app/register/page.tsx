@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -9,6 +10,8 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,7 +39,7 @@ export default function RegisterPage() {
         return;
       }
 
-      setMessage("Реєстрація успішна");
+      router.push("/catalog?success=register");
 
       setName("");
       setEmail("");
