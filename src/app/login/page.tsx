@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-export default function RegisterPage() {
-  const [name, setName] = useState("");
+export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,13 +16,12 @@ export default function RegisterPage() {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
           email,
           password,
         }),
@@ -36,11 +34,7 @@ export default function RegisterPage() {
         return;
       }
 
-      window.location.href = "/catalog?success=register";
-
-      setName("");
-      setEmail("");
-      setPassword("");
+      window.location.href = "/catalog?success=login";
     } catch {
       setMessage("Помилка сервера");
     } finally {
@@ -57,29 +51,15 @@ export default function RegisterPage() {
           </p>
 
           <h1 className="mt-2 text-3xl font-black">
-            Реєстрація
+            Вхід
           </h1>
 
           <p className="mt-2 text-sm text-neutral-500">
-            Створіть акаунт для роботи із сайтом.
+            Увійдіть у свій акаунт.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Ім’я
-            </label>
-
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Ваше ім’я"
-              className="w-full rounded-2xl border border-neutral-300 px-4 py-3 outline-none transition focus:border-black"
-            />
-          </div>
-
           <div>
             <label className="mb-2 block text-sm font-medium">
               Email
@@ -119,7 +99,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full cursor-pointer rounded-2xl bg-black px-5 py-4 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50"
           >
-            {loading ? "Завантаження..." : "Зареєструватися"}
+            {loading ? "Завантаження..." : "Увійти"}
           </button>
         </form>
       </section>

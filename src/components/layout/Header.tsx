@@ -75,7 +75,7 @@ export function Header() {
             </button>
           ) : (
             <Link
-              href="/register"
+              href="/login"
               className="ml-1 rounded-full bg-black px-3 py-2 text-[13px] font-semibold text-white sm:px-4 sm:text-sm"
             >
               Вхід
