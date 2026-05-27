@@ -1,28 +1,115 @@
-import { prisma } from "@/lib/prisma";
-import type { Product } from "@/generated/prisma";
+"use client";
 
-export default async function CatalogPage() {
-  const products = await prisma.product.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+import { useEffect, useState } from "react";
+
+type Product = {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  unit: string;
+};
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
+export default function CatalogPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    loadProducts();
+    loadUser();
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (
+      params.get("success") === "register" ||
+      params.get("success") === "login"
+    ) {
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+    }
+  }, []);
+
+  async function loadProducts() {
+    const response = await fetch("/api/products");
+
+    const data = await response.json();
+
+    setProducts(data.products);
+  }
+
+  async function loadUser() {
+    const response = await fetch("/api/auth/me");
+
+    const data = await response.json();
+
+    setUser(data.user);
+  }
+
+  async function logout() {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
+    window.location.reload();
+  }
 
   return (
     <main className="min-h-screen bg-white px-4 py-6 text-black">
       <section className="mx-auto max-w-6xl">
-        <div className="mb-6">
-          <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
-            Асортимент
-          </p>
+        {showSuccess && (
+          <div className="fixed left-1/2 top-5 z-50 -translate-x-1/2 rounded-2xl bg-black px-5 py-4 text-sm font-semibold text-white shadow-2xl">
+            Авторизація успішна!
+          </div>
+        )}
 
-          <h1 className="mt-2 text-3xl font-black">
-            Каталог товарів
-          </h1>
+        <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-neutral-200 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
+              Асортимент
+            </p>
 
-          <p className="mt-2 text-sm text-neutral-500">
-            Перегляд товарів, цін та залишків на складі.
-          </p>
+            <h1 className="mt-2 text-3xl font-black">
+              Каталог товарів
+            </h1>
+          </div>
+
+          {user && (
+            <div className="rounded-2xl bg-neutral-100 px-4 py-3">
+              <p className="text-sm font-bold">
+                {user.name}
+              </p>
+
+              <p className="text-xs text-neutral-500">
+                {user.email}
+              </p>
+
+              <div className="mt-3 flex items-center gap-2">
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold">
+                  {user.role}
+                </span>
+
+                <button
+                  onClick={logout}
+                  className="rounded-full bg-black px-3 py-1 text-xs font-semibold text-white"
+                >
+                  Вийти
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="mb-5">
