@@ -68,7 +68,7 @@ export function Header() {
           {user ? (
             <button
               onClick={() => setOpen(true)}
-              className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-black text-sm text-white"
+              className="ml-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-black text-sm text-white transition hover:opacity-90"
               aria-label="Профіль"
             >
               👤
@@ -104,20 +104,15 @@ export function Header() {
 
               <button
                 onClick={() => setOpen(false)}
-                className="rounded-full bg-neutral-100 px-3 py-2 text-sm font-bold"
+                className="cursor-pointer rounded-full bg-neutral-100 px-3 py-2 text-sm font-bold transition hover:bg-neutral-200"
               >
                 ✕
               </button>
             </div>
 
-            <div className="mb-5 rounded-2xl bg-neutral-100 px-4 py-3">
-              <p className="text-xs text-neutral-500">Роль акаунта</p>
-              <p className="mt-1 text-sm font-bold">{user.role}</p>
-            </div>
-
             <button
               onClick={logout}
-              className="w-full rounded-2xl bg-black px-5 py-4 text-sm font-bold text-white"
+              className="w-full cursor-pointer rounded-2xl bg-black px-5 py-4 text-sm font-bold text-white transition hover:opacity-90"
             >
               Вийти
             </button>
