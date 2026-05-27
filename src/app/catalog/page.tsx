@@ -11,22 +11,12 @@ type Product = {
   unit: string;
 };
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-};
-
 export default function CatalogPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [user, setUser] = useState<User | null>(null);
-
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     loadProducts();
-    loadUser();
 
     const params = new URLSearchParams(window.location.search);
 
@@ -39,6 +29,8 @@ export default function CatalogPage() {
       setTimeout(() => {
         setShowSuccess(false);
       }, 3000);
+
+      window.history.replaceState({}, "", "/catalog");
     }
   }, []);
 
@@ -50,22 +42,6 @@ export default function CatalogPage() {
     setProducts(data.products);
   }
 
-  async function loadUser() {
-    const response = await fetch("/api/auth/me");
-
-    const data = await response.json();
-
-    setUser(data.user);
-  }
-
-  async function logout() {
-    await fetch("/api/auth/logout", {
-      method: "POST",
-    });
-
-    window.location.reload();
-  }
-
   return (
     <main className="min-h-screen bg-white px-4 py-6 text-black">
       <section className="mx-auto max-w-6xl">
@@ -75,41 +51,14 @@ export default function CatalogPage() {
           </div>
         )}
 
-        <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-neutral-200 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
-              Асортимент
-            </p>
+        <div className="mb-6 rounded-3xl border border-neutral-200 p-5">
+          <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
+            Асортимент
+          </p>
 
-            <h1 className="mt-2 text-3xl font-black">
-              Каталог товарів
-            </h1>
-          </div>
-
-          {user && (
-            <div className="rounded-2xl bg-neutral-100 px-4 py-3">
-              <p className="text-sm font-bold">
-                {user.name}
-              </p>
-
-              <p className="text-xs text-neutral-500">
-                {user.email}
-              </p>
-
-              <div className="mt-3 flex items-center gap-2">
-                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold">
-                  {user.role}
-                </span>
-
-                <button
-                  onClick={logout}
-                  className="rounded-full bg-black px-3 py-1 text-xs font-semibold text-white"
-                >
-                  Вийти
-                </button>
-              </div>
-            </div>
-          )}
+          <h1 className="mt-2 text-3xl font-black">
+            Каталог товарів
+          </h1>
         </div>
 
         <div className="mb-5">
