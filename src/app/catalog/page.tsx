@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Product } from "@prisma/client";
+import type { Product } from "@/generated/prisma";
 
 export default async function CatalogPage() {
   const products = await prisma.product.findMany({
@@ -34,7 +34,7 @@ export default async function CatalogPage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product: Product) => (
+          {products.map((product) => (
             <article
               key={product.id}
               className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm"
