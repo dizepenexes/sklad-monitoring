@@ -4,6 +4,7 @@ const navigation = [
   { href: "/", label: "Головна" },
   { href: "/catalog", label: "Каталог" },
   { href: "/admin", label: "Адмін" },
+  { href: "/register", label: "Вхід" },
 ];
 
 export function Header() {
