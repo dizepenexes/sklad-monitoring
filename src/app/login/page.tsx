@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -102,6 +103,17 @@ export default function LoginPage() {
             {loading ? "Завантаження..." : "Увійти"}
           </button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-neutral-500">
+          Немає акаунту?{" "}
+            
+          <Link
+            href="/register"
+            className="font-semibold text-black transition hover:opacity-70"
+          >
+            Реєстрація
+          </Link>
+        </div>
       </section>
     </main>
   );
