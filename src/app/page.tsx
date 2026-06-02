@@ -28,12 +28,6 @@ export default function Home() {
               Перейти до каталогу
             </a>
 
-            <a
-              href="/admin"
-              className="rounded-full border border-neutral-300 px-6 py-4 text-center text-sm font-semibold transition hover:bg-neutral-100"
-            >
-              Адмін-панель
-            </a>
           </div>
         </section>
 

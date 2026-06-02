@@ -22,6 +22,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   sessions Session[]
+  cashEvents CashEvent[]
 }
 
 model Session {
@@ -44,4 +45,56 @@ model Product {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  cashEventItems CashEventItem[]
+}
+
+enum CashEventType {
+  INCOME
+  EXPENSE
+}
+
+enum CashEventCategory {
+  LOCAL_SALE
+  DELIVERY_ORDER
+  DEBT_RETURN
+  SALARY
+  OTHER
+}
+
+model CashDay {
+  id             String   @id @default(cuid())
+  date           DateTime @unique
+  openingBalance Float    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  events CashEvent[]
+}
+
+model CashEvent {
+  id          String            @id @default(cuid())
+  cashDayId   String
+  userId      String
+  type        CashEventType
+  category    CashEventCategory
+  amount      Float
+  comment     String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  cashDay CashDay @relation(fields: [cashDayId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id])
+  items   CashEventItem[]
+}
+
+model CashEventItem {
+  id          String @id @default(cuid())
+  eventId     String
+  productId   String
+  quantity    Int
+  priceAtSale Float
+  total       Float
+
+  event   CashEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  product Product   @relation(fields: [productId], references: [id])
 }
