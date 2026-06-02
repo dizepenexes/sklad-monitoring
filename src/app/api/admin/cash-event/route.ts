@@ -3,9 +3,18 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 function getStartOfToday() {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
-  return date;
+  const now = new Date();
+
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Kyiv",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  const dateString = formatter.format(now);
+
+  return new Date(`${dateString}T00:00:00.000Z`);
 }
 
 export async function POST(request: Request) {

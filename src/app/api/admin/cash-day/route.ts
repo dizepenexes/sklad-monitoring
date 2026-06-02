@@ -3,11 +3,18 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 function getStartOfToday() {
-  const date = new Date();
+  const now = new Date();
 
-  date.setHours(0, 0, 0, 0);
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Kyiv",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 
-  return date;
+  const dateString = formatter.format(now);
+
+  return new Date(`${dateString}T00:00:00.000Z`);
 }
 
 const cashDayInclude = {

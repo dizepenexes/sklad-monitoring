@@ -11,30 +11,16 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
+  const testProducts = Array.from({ length: 220 }, (_, index) => ({
+    name: `Тестовий товар ${index + 1}`,
+    category: index % 2 === 0 ? "Будматеріали" : "Інструменти",
+    price: 50 + index * 5,
+    stock: 100 + index,
+    unit: "шт",
+  }));
+
   await prisma.product.createMany({
-    data: [
-      {
-        name: "Цемент М-500",
-        category: "Цемент",
-        price: 165,
-        stock: 42,
-        unit: "мішок",
-      },
-      {
-        name: "Цегла червона",
-        category: "Цегла",
-        price: 8,
-        stock: 2500,
-        unit: "шт",
-      },
-      {
-        name: "Пісок",
-        category: "Сипучі матеріали",
-        price: 750,
-        stock: 12,
-        unit: "т",
-      },
-    ],
+    data: testProducts,
   });
 
   console.log("Seed completed");
