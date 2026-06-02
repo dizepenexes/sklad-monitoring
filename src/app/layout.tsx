@@ -3,8 +3,8 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 
 export const metadata: Metadata = {
-  title: "Склад у Руслана",
-  description: "Онлайн-моніторинг складу будівельних матеріалів",
+  title: "ЯR Дом",
+  description: "Будівельний маркет",
 };
 
 export default function RootLayout({

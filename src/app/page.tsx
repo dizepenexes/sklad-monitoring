@@ -8,7 +8,7 @@ export default function Home() {
           </p>
 
           <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-6xl">
-            Склад у Руслана
+            ЯR Дом
           </h1>
 
           <h2 className="mt-3 max-w-2xl text-2xl font-semibold leading-tight text-neutral-800 sm:text-4xl">

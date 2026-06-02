@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 const navigation = [
   { href: "/", label: "Головна" },
   { href: "/catalog", label: "Каталог" },
-  { href: "/admin", label: "Адмін" },
 ];
 
 type User = {
@@ -46,7 +45,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
         <Link href="/" className="min-w-0 shrink">
           <span className="block text-base font-black leading-5 tracking-tight text-black sm:text-lg">
-            Склад у Руслана
+            ЯR Дом
           </span>
 
           <span className="block text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">
@@ -64,6 +63,15 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+
+          {(user?.role === "ADMIN" || user?.role === "OWNER") && (
+            <Link
+              href="/admin"
+              className="rounded-full px-2 py-2 text-[13px] font-medium text-black transition hover:bg-neutral-100 sm:px-4 sm:text-sm"
+            >
+              Адмін
+            </Link>
+          )}
 
           {user ? (
             <button
